@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .progress-bar-low { background-color: #4CAF50; }       /* Green */
+        .progress-bar-medium { background-color: #FFC107; }    /* Amber */
+        .progress-bar-high { background-color: #F44336; }      /* Red */
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card-header text-center text-white" 
+         style="background: linear-gradient(90deg, #ff416c, #441810ff);">
+        <h2 style="font-weight: bold;">Heart Disease Prediction Form</h2>
+    </div>
+
+    <div class="card-body">
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'show_form' %}">
+
+            {% csrf_token %}
+
+            <!-- Age & Sex -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Age</label>
+                    <input type="number" name="Age" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Sex</label>
+                    <select name="Sex" class="form-select">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Chest Pain Type -->
+            <div class="mb-3">
+                <label class="form-label">Chest Pain Type</label>
+                <select name="ChestPainType" class="form-select">
+                    <option value="0">Typical Angina (TA)</option>
+                    <option value="1">Atypical Angina (ATA)</option>
+                    <option value="2">Non-Anginal Pain (NAP)</option>
+                    <option value="3">Asymptomatic (ASY)</option>
+                </select>
+            </div>
+
+            <!-- Resting BP & Cholesterol -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Resting Blood Pressure</label>
+                    <input type="number" name="RestingBP" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Cholesterol</label>
+                    <input type="number" name="Cholesterol" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Fasting Blood Sugar & Resting ECG -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Fasting Blood Sugar > 120 mg/dl</label>
+                    <select name="FastingBS" class="form-select">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="form-label">Resting ECG</label>
+                    <select name="RestingECG" class="form-select">
+                        <option value="0">Normal</option>
+                        <option value="1">ST-T Abnormality</option>
+                        <option value="2">Left Ventricular Hypertrophy</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Max Heart Rate & Exercise Angina -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Maximum Heart Rate</label>
+                    <input type="number" name="MaxHR" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">Exercise Induced Angina</label>
+                    <select name="ExerciseAngina" class="form-select">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Oldpeak & ST Slope -->
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Oldpeak</label>
+                    <input type="number" step="0.1" name="Oldpeak" class="form-control" required>
+                </div>
+                <div class="col">
+                    <label class="form-label">ST Slope</label>
+                    <select name="ST_Slope" class="form-select">
+                        <option value="0">Upsloping</option>
+                        <option value="1">Flat</option>
+                        <option value="2">Downsloping</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-4">Predict</button>
+            </div>
+        </form>
+
+        <!-- Prediction Results -->
+        {% if result %}
+        <hr>
+        <h3 class="mt-4">Prediction Results</h3>
+        <div class="alert alert-info">
+            <p><strong>Heart Disease:</strong> {{ result }}</p>
+            <p><strong>Risk Percentage:</strong> {{ risk_percent }}%</p>
+
+            <!-- Risk progress bar -->
+            <div class="progress mb-2" style="height: 25px;">
+                <div class="progress-bar 
+                    {% if risk_percent <= 30 %}progress-bar-low{% elif risk_percent <= 60 %}progress-bar-medium{% else %}progress-bar-high{% endif %}" 
+                    role="progressbar" style="width: {{ risk_percent }}%" 
+                    aria-valuenow="{{ risk_percent }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ risk_percent }}%
+                </div>
+            </div>
+
+            
+            <p><strong>Risk Level:</strong> {{ risk_level }}</p>
+            <p><strong>Exercise Recommendations:</strong></p>
+            <ul>
+                {% for ex in exercise %}
+                    <li>{{ ex }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
