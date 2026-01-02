@@ -25,6 +25,8 @@ def predict_heart_disease(request):
             features = np.array(data['features']).reshape(1, -1)
 
             BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
             model_path = os.path.join(BASE_DIR, 'predictor', 'svm_model.pkl')
 
             model = joblib.load(model_path)
@@ -75,7 +77,8 @@ def predictor(request):
     return HttpResponse("This is the predictor endpoint.")
 
 # Load your saved model
-model_path = os.path.join(settings.BASE_DIR, 'C:\django\heartpredictor\predictor\svm_model.pkl')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model_path = os.path.join(BASE_DIR, 'predictor', 'svm_model.pkl')
 model = joblib.load(model_path)
 
 def show_form(request):

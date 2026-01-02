@@ -131,7 +131,7 @@
             <!-- Risk progress bar -->
             <div class="progress mb-2" style="height: 25px;">
                 <div class="progress-bar 
-                    {% if risk_percent <= 30 %}progress-bar-low{% elif risk_percent <= 60 %}progress-bar-medium{% else %}progress-bar-high{% endif %}" 
+                    {% if risk_percent <= 30 %}progress-bar-low{% elif risk_percent  <= 60 %}progress-bar-medium{% else %}progress-bar-high{% endif %}" 
                     role="progressbar" style="width: {{ risk_percent }}%" 
                     aria-valuenow="{{ risk_percent }}" aria-valuemin="0" aria-valuemax="100">
                     {{ risk_percent }}%
