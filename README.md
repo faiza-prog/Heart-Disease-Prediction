@@ -119,7 +119,7 @@ These filters allow dynamic exploration of patient data.
 
 ### Step 1: Clone this repository
 ```bash
-git clone https://github.com/mahammzahid/heart-disease-prediction.git
+git clone https://github.com/faiza-prog/heart-disease-prediction.git
 cd heart-disease-prediction
 ```
 
